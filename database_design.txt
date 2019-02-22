@@ -1,0 +1,74 @@
+database --> collection of data  
+database management system ---> manage the database 
+relational database  --> collection of data with relationship inbetween them 
+reational database management system --> manages the reational database 
+
+Relational database --> Tuple Relational caluculas 
+
+RELATIONSHIP  is CONNECTION between DATA 
+ENTITY - anything we store data about 
+ATTRIBUTE - the data we store about an ENTITY
+
+    row        column 
+    record     attribute 
+    tuple      field  
+
+
+* each row points to different entities 
+* each column points to different attribute about an ENTITY
+
+                                         .---------  database 1
+            query <--------> dbms <----->|---------  database 2
+                                         '---------  database 3 
+
+VIEW MECHANISM --> fetching specific data 
+               --> security mechanism 
+               --> different people have different access to data
+
+TRANSCATION --> successs
+            --> failure 
+            --> no partial update 
+
+
+SQL --> the langauge dbms can understand 
+
+* DDL  --> data definition langauge   CREATE , ALTERA 
+* DML  --> data manipulation langauge  INSERT INTO , UPDATE  
+* DCL  --> data control langauge  
+* TCL  --> transcation control langauge  
+* DQL  --> data query langauge  SELECT 
+
+JOINS ---> combining multiple tables and creating a new view 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
