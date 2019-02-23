@@ -12,7 +12,7 @@ ATTRIBUTE - the data we store about an ENTITY
     row        column 
     record     attribute 
     tuple      field  
-
+    relation   table , file 
 
 * each row points to different entities 
 * each column points to different attribute about an ENTITY
@@ -30,15 +30,269 @@ TRANSCATION --> successs
             --> no partial update 
 
 
-SQL --> the langauge dbms can understand 
 
+JOINS ---> combining multiple tables and creating a new view 
+
+NAMING CONVENTION  -->  SQL COMMANDS , identifiers 
+
+
+DATABASE DESIGN  - conceptual , logical , physical
+---------------
+* data integerity --> correct , updated , no repeating data , no old data , no disconnected data 
+* normalization  
+
+
+WHAT IF WE PUT EVERYTHING IN A SINGLE TABLE
+-------------------------------------------
+
+USER
+------------------------------.
+name      id       products   |                           
+------------------------------'
+kavi      23       iphone 6   |
+kavi      23       moto g4    |
+------------------------------'
+as we see above , we have store name and id two times , it creates redundancy 
+if we update the name, we have to update the name in two rows 
+
+
+PURCHASES
+------------------.
+name    product   |
+------------------'
+kavi    moto g4   |
+kavi    iphone 6  |
+------------------'
+
+so we have to use different tables for different entities 
+
+RELATION -- mathemcatical connection between sets 
+
+DATA INTEGRITY --> accuracy , consistency  
+--------------
+* Entity integerity      - Primary Key --- uniqueness among entity in a table                -  no unique attribute in a table 
+* Referential integerity - Foreign Key  - relationship between tables must be persistent     - a comment without a table
+* Domain integrity       - column must have correct specific value, within range - DATA TYPE - a string in a phone number column 
+
+--> incorrect data
+--> broken relationship
+--> un updated data     
+
+
+ANAMOLIES --> unexpected behaviour 
+
+
+DATA BASE Terms 
+----------------
+data , database , relational database , database management system , relational database management system ,  
+NULL --> an empty column 
+ANAMOLIES --> erros in data integrity 
+INTEGRITY --> entity , Referential , domain 
+ENTITY --> a table name (noun)
+SCHEMA --> drawn out structure  
+NORMALIZATION --> reducing dependancy and redundancy
+KEYS -->  
+views --> fetching data from database and showing differenty , views often use joins 
+joins --> fetching data from different tables and combining them to create a new view 
+
+* SQL --> the langauge dbms can understand 
 * DDL  --> data definition langauge   CREATE , ALTERA 
 * DML  --> data manipulation langauge  INSERT INTO , UPDATE  
 * DCL  --> data control langauge  
 * TCL  --> transcation control langauge  
 * DQL  --> data query langauge  SELECT 
 
-JOINS ---> combining multiple tables and creating a new view 
+
+ATOMIC VALUES - a attribute must store only one thing 
+-------------
+* a column should store exactly one thing
+* the thing must be singular 
+for example a column NAME should not contain FIRST_NAME + SECOND_NAME + THIRD_NAME 
+             0        1         2
+NAME    -->   first   second     third 
+
+ADDRESS  ->   street   home_number  village district 
+
+Favourite movies --> even though this column stores exactly one thing , Favourite movies 
+                 --> it should be singular 
+                 --> a single column must have only one value 
+                 --> we have to store multiple values into multiple columns
+
+before we learning about relationship we have to understand some database constraints.  
+
+
+************************************************************************************************************
+PRIMARY KEY --> if a column is set to be primary key , it cannot have null or duplicate values
+FOREIGN KEY --> if a column is foreign key , then it must fit into the value of referencing column value 
+************************************************************************************************************
+
+RELATIONSHIP
+------------
+take one big table and break it into multiple small table and maintain relationship inbetween them
+
+
+                     DATABASE 
+
+                 --------table1 ---- attribute_1
+                                ---- attribute_2
+                                ---- attribute_3
+
+                 --------table2 ---- attribute_1
+                                ---- attribute_2
+                                ---- attribute_3
+
+                 --------table2 ---- attribute_1
+                                ---- attribute_2
+                                ---- attribute_3
+                
+                 --------table2 ---- attribute_1
+                                ---- attribute_2
+                                ---- attribute_3
+types 
+------
+1. One to one 
+2. One to many 
+3. Many to many 
+
+
+ONE TO ONE  --> one column exactly has connection with another one column 
+----------
+* one entity have connection with one other entity 
+
+  a person have on social security number
+  a husband has one wife
+  a wife has one husband 
+
+      entity <--------> entity 
+          
+* mostly one to one relationship are kept as attribute in a table. 
+* as only one entity is going to have relationship with only one entity it stays in a table as attribute
+* so rather than storing it as an entity in another table we are stroing it as attribute
+* ONE TO ONE REALATIONSHIPS ARE MOSTLY STAYS AS ATTRIBUTE IN THE SAME TABLE.
+* on special occasions only it comes in separate table.
+* if the attribute has so much data associated with it we can able to put in another table and give one to one relationship.
+  even though it is one to one. 
+* exactly only one column for one entity. that is when one to one relationship occurs.  
+* sometimes we put it in the same table if it is simple enough to store it in the table.     
+* if we have multiple attribute associated with it we store it another table making relationship with another table.   
+
+ A TABLE MUST BE ABOUT ONLY ONE ENTITY --> if we store much about another entity in the same table we have to create another 
+ table and make sure that we store about only one thing in a table. 
+
+USER (bad one) 
+---------.---------.-----.-------------.---------.------------------.-------------.-------------.
+ user_id | user_id | age | card_number | card_id | card_issued_date | min_balance | max_balance |
+---------'---------'-----'-------------'---------'------------------'-------------'-------------'
+the above table must about only one entity that is about users. but it is about USERS+CARD.so it is a  bad design.
+
+
+USER (good one)                 CARD (good one)
+---------.---------.-----.      .-------------.---------.------------------.-------------.-------------.
+ user_id | user_id | age |      | card_number | card_id | card_issued_date | min_balance | max_balance |
+---------'---------'-----'      '-------------'---------'------------------'-------------'-------------'
+
+
+connecting two tables for one to one relationship
+-------------------------------------------------
+
+USER                      CARD           
+----                      ----
+user_id (Primary_key)     card_id (Primary_Key)
+car_id  (Foreign_key)     user_id (Foreign_key)
+
+
+ONE TO MANY - a single column connect with more than one column   
+-----------  
+* one entity have connection with multiple entity
+
+  a user can have multiple posts 
+  a user can have multiple email addresses 
+  a king can have many wifes. but the wifes have only one husband king.
+
+   entity <------> entity 
+          <------> entity 
+          <------> entity 
+          <------> entity 
+
+we can't have one to many relationship with single table. we have to have atleast two tables to make one to many relationship.
+
+MANY TO MANY RELATIONSHIP
+-------------------------
+a men can marry multiple women.
+a women can marry multiple men. 
+a student can take multiple classes.
+a class can have  multiple student.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
