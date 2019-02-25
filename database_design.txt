@@ -123,8 +123,12 @@ before we learning about relationship we have to understand some database constr
 
 ************************************************************************************************************
 PRIMARY KEY --> if a column is set to be primary key , it cannot have null or duplicate values
-FOREIGN KEY --> if a column is foreign key , then it must fit into the value of referencing column value 
+FOREIGN KEY --> if a column is foreign key , then it must have any value of the column which it referencing 
 ************************************************************************************************************
+
+we cannot remove parent before deleting child which has relationship with the parent.
+we cannot delete user_account before deleting cart of the user and other tables where we have parent-child relationship.
+
 
 RELATIONSHIP
 ------------
@@ -152,14 +156,24 @@ types
 ------
 1. One to one 
 2. One to many 
-3. Many to many 
+3. Many to one  --> we just reverse the table ( we exchange parent and child ) 
+4. Many to many 
 
+
+
+Many to one relationship
+------------------------
+many to one and one to many are same. it is just how we see the relationship. 
+MANY --> child table |
+ONE --> parent table |
+so the table which is going to have less number of rows will be the parent table.
+the table which is going to have more number of table will be child table and will have FOREIGN KEY !
 
 ONE TO ONE  --> one column exactly has connection with another one column 
 ----------
 * one entity have connection with one other entity 
 
-  a person have on social security number
+  a person have a only one social security number
   a husband has one wife
   a wife has one husband 
 
@@ -195,11 +209,22 @@ USER (good one)                 CARD (good one)
 connecting two tables for one to one relationship
 -------------------------------------------------
 
+in the below table a user can have only on product
+
 USER                      CARD           
 ----                      ----
 user_id (Primary_key)     card_id (Primary_Key)
-car_id  (Foreign_key)     user_id (Foreign_key)
+                          user_id (Foreign_key) UNIQUE --> so only one product can be owned by one user 
 
+
+in the below table a user must have a product
+
+USER                      CARD 
+----                      ----
+user_id(PK)               card_id(PK)
+card_id(FK)               user_id(FK)
+
+_______________________________________________________________________________________________________________________________________________________
 
 ONE TO MANY - a single column connect with more than one column   
 -----------  
@@ -215,13 +240,121 @@ ONE TO MANY - a single column connect with more than one column
           <------> entity 
 
 we can't have one to many relationship with single table. we have to have atleast two tables to make one to many relationship.
+_______________________________________________________________________________________________________________________________________________________
 
-MANY TO MANY RELATIONSHIP
+MANY TO MANY RELATIONSHIP --> we can't able to do many to many relationship in relational database
 -------------------------
-a men can marry multiple women.
-a women can marry multiple men. 
-a student can take multiple classes.
-a class can have  multiple student.
+1.  a men can marry multiple women <-> a women can marry multiple men. 
+2. a student can take multiple classes <-> a class can have multiple students 
+    
+    table   +    intermediate table   +   table
+    ------------------------------------------- 
+    student      enrollments             classes    
+    men          relationship            women 
+
+------------------------------.
+ one to | many  many | to one |
+------------------------------'
+_______________________________________________________________________________________________________________________________________________________
+
+INSIGHTS
+--------
+* OneToOne Relationship --> when one entity is related with only one other entity and the other entity also related with only one entity.
+so we can store it as attribute instead of entity.sometimes even if one entity is related to other entity and other entity also related to only
+one entity we have to store much about the other entity. so we can't store about two things in a table. so we have to create separate table
+for that one to one relationship and use foreign key with unique attribute to enforce one to one relationship instead of one to many relationship.
+Even when we store one to one relationship within the same table we have to use UNIQUE attribute for enforcing one to one relationship.
+
+_______________________________________________________________________________________________________________________________________________________  
+
+KEYS  --> a key keeps everythig unique in a table  
+----
+* Kes is a constraint 
+* index is a data structure
+
+keys the following properties
+-----------------------------
+1. keys must be unique
+2. keys should not change 
+3. keys should not be null
+
+INDEX is used to implement keys. Because when we implement keys we have to check for some conditions like it should not be duplicate or 
+be null.so creating and index for keys will help check the constraints fast. 
+
+
+LOOKUP TABLE
+------------
+lets understand the need for a lookup table. 
+
+user_table
+-----------   
+user_id    user_name  membeship
+-------------------------------
+1          naveen     golden
+2          prabu      silver 
+3          jack       plantinum
+4          kavi       bronze 
+5          vishnu     golden
+6          ravi       silver
+7          binu       bronze 
+
+
+* in the above table at membeship column we have repeating values.so it takes lot of storage.
+* when user enters a invalid entry in membeship , we don't have any kind of protection against that. so it violates
+  domain integrity. 
+* when we change the membership names , we have to change in all other tables which has relationship with this table. 
+
+
+
+with lookup table
+-----------------
+
+user_table
+----------
+user_id    user_name  membeship 
+-------------------------------
+1          naveen     1 
+2          prabu      2 
+3          jack       3 
+4          kavi       4 
+5          vishnu     1 
+6          ravi       2 
+7          binu       4 
+
+
+membership_lookup_table
+------------------------
+id  membership
+--------------
+1   golden
+2   silver 
+3   plantinum
+4   bronze
+
+so the above is the optimized solution. we can make change in single table and no need to change in any other table.
+
+
+types of keys
+-------------
+1. primary key
+2. foreign key
+3. secondary key - alternate key 
+4. surrogate key
+5. composite key
+6. compound key
+7. candidate key 
+8. natural key - Business Key  or Domain Key
+9. super key 
+11. unique key  
+12. minimal super key 
+
+
+
+
+
+
+
+
 
 
 
